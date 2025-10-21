@@ -2,6 +2,7 @@ package tests;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
+import dto.LoginResponse;
 import helpers.Attach;
 import io.qameta.allure.selenide.AllureSelenide;
 import io.restassured.RestAssured;
@@ -16,6 +17,8 @@ import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static config.ProjectConfig.projectConfig;
 
 public class BaseTest {
+
+    public LoginResponse loginResponse;
 
     @BeforeAll
     public static void setUp() {
@@ -49,5 +52,9 @@ public class BaseTest {
         Attach.browserConsoleLogs();
         Attach.addVideo();
         closeWebDriver();
+    }
+
+    public void setLoginResponse(LoginResponse response) {
+        this.loginResponse = response;
     }
 }

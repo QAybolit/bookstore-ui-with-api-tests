@@ -1,15 +1,29 @@
 package steps;
 
 import dto.AddBookRequest;
+import dto.AuthData;
 import dto.DeleteBookRequest;
+import dto.LoginResponse;
 import dto.UserInfo;
 import io.qameta.allure.Step;
 
 import static io.restassured.RestAssured.given;
 import static specs.BookStoreSpecs.getAuthRequestSpec;
 import static specs.BookStoreSpecs.getResponseSpec;
+import static specs.BookStoreSpecs.requestSpec;
 
 public class ApiSteps {
+
+    @Step("Залогиниться под пользователем")
+    public static LoginResponse login(AuthData authData) {
+        return given(requestSpec)
+                .body(authData)
+                .when()
+                .post("/Account/v1/Login")
+                .then()
+                .spec(getResponseSpec(200))
+                .extract().as(LoginResponse.class);
+    }
 
     @Step("Получить информацию о пользователе")
     public static UserInfo getUserInfo(String userId, String token) {
@@ -35,6 +49,7 @@ public class ApiSteps {
     public static void addBookToBookListIfNotPresent(String userId, String token, String isbn, AddBookRequest addBookRequest) {
         UserInfo userInfo = getUserInfo(userId, token);
         boolean bookIsNotPresent = userInfo.getBooks().stream().noneMatch(book -> book.getIsbn().equals(isbn));
+
         if (userInfo.getBooks().isEmpty() || bookIsNotPresent) {
             addBookToBookList(token, addBookRequest);
         }
