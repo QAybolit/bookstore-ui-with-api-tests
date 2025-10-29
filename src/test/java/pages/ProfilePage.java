@@ -1,6 +1,7 @@
 package pages;
 
 import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import org.openqa.selenium.Cookie;
@@ -46,6 +47,7 @@ public class ProfilePage {
         this.deleteAllBooksButton.shouldBe(visible).click();
         this.modalWindow.shouldBe(visible);
         this.okButton.shouldBe(visible).click();
+        Selenide.confirm();
         return this;
     }
 
