@@ -11,6 +11,7 @@ import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.executeJavaScript;
 import static com.codeborne.selenide.Selenide.open;
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
@@ -36,14 +37,21 @@ public class ProfilePage {
         return this;
     }
 
-    @Step("Проверить, что книга присутсвует вв списке")
+    @Step("Закрыть рекламные баннеры")
+    public ProfilePage closeBanners() {
+        executeJavaScript("$('footer').remove();");
+        executeJavaScript("$('#fixedban').remove();");
+        return this;
+    }
+
+    @Step("Проверить, что книга присутствует в списке")
     public ProfilePage checkBookIsPresent(String book) {
         this.bookTitles.findBy(text(book)).shouldBe(visible);
         return this;
     }
 
-    @Step("Удалить книгу из списка")
-    public ProfilePage deleteBookFromList(String book) {
+    @Step("Удалить все книги из списка")
+    public ProfilePage deleteAllBooksFromList(String book) {
         this.deleteAllBooksButton.shouldBe(visible).click();
         this.modalWindow.shouldBe(visible);
         this.okButton.shouldBe(visible).click();

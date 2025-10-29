@@ -3,7 +3,6 @@ package tests;
 import helpers.extensions.WithLogin;
 import io.qameta.allure.Story;
 import dto.AddBookRequest;
-import dto.DeleteBookRequest;
 import dto.Isbn;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,8 +28,9 @@ public class BookStoreTests extends BaseTest {
         addBookToBookListIfNotPresent(loginResponse.getUserId(), loginResponse.getToken(), isbn.getIsbn(), addBookRequest);
         profilePage.openProfilePage(loginResponse.getUserId(), loginResponse.getUsername(),
                         loginResponse.getToken(), loginResponse.getExpires())
+                .closeBanners()
                 .checkBookIsPresent(bookTitle)
-                .deleteBookFromList(bookTitle)
+                .deleteAllBooksFromList(bookTitle)
                 .checkBookListIsEmpty();
     }
 }
