@@ -12,7 +12,6 @@ import pages.ProfilePage;
 import java.util.List;
 
 import static steps.ApiSteps.addBookToBookListIfNotPresent;
-import static steps.ApiSteps.deleteBookFromBookList;
 
 @Story("Профиль пользователя")
 public class BookStoreTests extends BaseTest {
@@ -21,16 +20,17 @@ public class BookStoreTests extends BaseTest {
     @WithLogin
     @DisplayName("Удаление книги из списка")
     public void deleteBookFromBookListTest() {
-        ProfilePage profilePage = new ProfilePage();
         Isbn isbn = new Isbn("9781449365035");
+        String bookTitle = "Speaking JavaScript";
+
+        ProfilePage profilePage = new ProfilePage();
         AddBookRequest addBookRequest = new AddBookRequest(loginResponse.getUserId(), List.of(isbn));
-        DeleteBookRequest deleteBookRequest = new DeleteBookRequest(loginResponse.getUserId(), isbn.getIsbn());
 
         addBookToBookListIfNotPresent(loginResponse.getUserId(), loginResponse.getToken(), isbn.getIsbn(), addBookRequest);
-        deleteBookFromBookList(loginResponse.getToken(), deleteBookRequest);
-        profilePage.openProfilePage(loginResponse.getUserId(), loginResponse.getUsername(), loginResponse.getToken(),
-                loginResponse.getExpires());
-        profilePage.checkBookListIsEmpty();
-
+        profilePage.openProfilePage(loginResponse.getUserId(), loginResponse.getUsername(),
+                        loginResponse.getToken(), loginResponse.getExpires())
+                .checkBookIsPresent(bookTitle)
+                .deleteBookFromList(bookTitle)
+                .checkBookListIsEmpty();
     }
 }
