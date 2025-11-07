@@ -1,17 +1,15 @@
 package config;
 
 import org.aeonbits.owner.Config;
-import org.aeonbits.owner.ConfigFactory;
 
 @Config.LoadPolicy(Config.LoadType.MERGE)
 @Config.Sources({
         "system:properties",
         "system:env",
-        "classpath:project.properties"
+        "classpath:${env}.properties",
+        "classpath:local.properties",
 })
 public interface ProjectConfig extends Config {
-
-    ProjectConfig projectConfig = ConfigFactory.create(ProjectConfig.class);
 
     @Key("base.url")
     String baseUrl();
@@ -30,6 +28,9 @@ public interface ProjectConfig extends Config {
 
     @Key("timeout")
     long timeout();
+
+    @Key("isRemote")
+    boolean isRemote();
 
     @Key("remote.url")
     String remoteUrl();

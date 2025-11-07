@@ -1,6 +1,7 @@
 package helpers;
 
 import com.codeborne.selenide.Selenide;
+import config.ProjectConfigReader;
 import io.qameta.allure.Attachment;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -12,7 +13,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
-import static config.ProjectConfig.projectConfig;
 import static org.openqa.selenium.logging.LogType.BROWSER;
 
 public class Attach {
@@ -44,7 +44,7 @@ public class Attach {
     }
 
     public static URL getVideoUrl(String sessionId) {
-        String videoUrl = projectConfig.remoteUrl() + "/video/" + sessionId + ".mp4";
+        String videoUrl = ProjectConfigReader.INSTANCE.projectConfig().remoteUrl() + "/video/" + sessionId + ".mp4";
         try {
             return new URL(videoUrl);
         } catch (MalformedURLException e) {
