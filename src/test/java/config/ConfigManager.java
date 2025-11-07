@@ -27,13 +27,17 @@ public class ConfigManager {
         Configuration.browserSize = projectConfig.browserSize();
 
         if (projectConfig.isRemote()) {
-            Configuration.remote = projectConfig.remoteUrl();
-            DesiredCapabilities capabilities = new DesiredCapabilities();
-            capabilities.setCapability("selenoid:options", Map.<String, Object>of(
-                    "enableVNC", projectConfig.enableVnc(),
-                    "enableVideo", projectConfig.enableVideo()
-            ));
-            Configuration.browserCapabilities = capabilities;
+            setRemoteConfig();
         }
+    }
+
+    private void setRemoteConfig() {
+        Configuration.remote = projectConfig.remoteUrl();
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("selenoid:options", Map.<String, Object>of(
+                "enableVNC", projectConfig.enableVnc(),
+                "enableVideo", projectConfig.enableVideo()
+        ));
+        Configuration.browserCapabilities = capabilities;
     }
 }

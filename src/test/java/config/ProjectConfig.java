@@ -2,12 +2,11 @@ package config;
 
 import org.aeonbits.owner.Config;
 
-@Config.LoadPolicy(Config.LoadType.MERGE)
 @Config.Sources({
         "system:properties",
         "system:env",
         "classpath:${env}.properties",
-        "classpath:remote.properties"
+        "classpath:local.properties"
 })
 public interface ProjectConfig extends Config {
 
