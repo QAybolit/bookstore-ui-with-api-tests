@@ -4,6 +4,7 @@ import org.aeonbits.owner.Config;
 
 @Config.LoadPolicy(Config.LoadType.MERGE)
 @Config.Sources({
+        "system:properties",
         "system:env",
         "classpath:${env}.properties",
         "classpath:local.properties"
@@ -28,15 +29,6 @@ public interface ProjectConfig extends Config {
     @Key("timeout")
     long timeout();
 
-    @Key("isRemote")
-    boolean isRemote();
-
     @Key("remote.url")
     String remoteUrl();
-
-    @Key("enable.vnc")
-    boolean enableVnc();
-
-    @Key("enable.video")
-    boolean enableVideo();
 }

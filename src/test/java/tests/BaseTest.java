@@ -19,7 +19,7 @@ import static com.codeborne.selenide.Selenide.closeWebDriver;
 
 public class BaseTest {
 
-    private static final ProjectConfig projectConfig = ConfigFactory.create(ProjectConfig.class, System.getProperties());
+    private static final ProjectConfig projectConfig = ConfigFactory.create(ProjectConfig.class);
     public LoginResponse loginResponse;
 
     @BeforeAll
@@ -31,16 +31,13 @@ public class BaseTest {
         Configuration.browser = projectConfig.browser();
         Configuration.browserVersion = projectConfig.browserVersion();
         Configuration.browserSize = projectConfig.browserSize();
-
-        if (projectConfig.isRemote()) {
-            Configuration.remote = projectConfig.remoteUrl();
-            DesiredCapabilities capabilities = new DesiredCapabilities();
-            capabilities.setCapability("selenoid:options", Map.<String, Object>of(
-                    "enableVNC", projectConfig.enableVnc(),
-                    "enableVideo", projectConfig.enableVideo()
-            ));
-            Configuration.browserCapabilities = capabilities;
-        }
+        Configuration.remote = projectConfig.remoteUrl();
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("selenoid:options", Map.<String, Object>of(
+                "enableVNC", true,
+                "enableVideo", true
+        ));
+        Configuration.browserCapabilities = capabilities;
     }
 
     @BeforeEach
